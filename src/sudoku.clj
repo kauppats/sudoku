@@ -38,32 +38,70 @@
   )
 )
 
+(def all-values #{1 2 3 4 5 6 7 8 9})
+
 (defn valid-values-for [board coord]
-  nil)
+  (if (has-value? board coord)
+    #{}
+    (let [col-vals (col-values board coord)
+          row-vals (row-values board coord)
+          block-vals (block-values board coord)
+          all-vals (clojure.set/union col-vals row-vals block-vals)
+         ]
+      (clojure.set/difference all-values all-vals)
+    )
+  )
+)
 
 (defn filled? [board]
-  nil)
+  (let [row-sets (for [row board] (set row))
+        all-vals (apply clojure.set/union row-sets)
+       ]
+    (not (contains? all-vals 0))
+  )
+)
 
 (defn rows [board]
-  nil)
+  (for [index (range 9)] 
+    (set (row-values board [index 0]))
+  )
+)
+
+(defn valid-sets? [a-sets]
+  (every? (fn [a-seq] (= all-values a-seq)) a-sets)
+)
 
 (defn valid-rows? [board]
-  nil)
+  (valid-sets? (rows board))
+)
 
 (defn cols [board]
-  nil)
+  (for [index (range 9)] 
+    (set (col-values board [0 index]))
+  )
+)
 
 (defn valid-cols? [board]
-  nil)
+  (valid-sets? (cols board))
+)
 
 (defn blocks [board]
-  nil)
+  (for [row (range 3) col (range 3)]
+    (set (block-values board [(* row 3) (* col 3)]))
+  )
+)
 
 (defn valid-blocks? [board]
-  nil)
+  (valid-sets? (blocks board))
+)
 
 (defn valid-solution? [board]
-  nil)
+  (and
+    (valid-rows? board)
+    (valid-cols? board)
+    (valid-blocks? board)
+  )
+)
 
 (defn set-value-at [board coord new-value]
   nil)
