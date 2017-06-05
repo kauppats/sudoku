@@ -104,10 +104,17 @@
 )
 
 (defn set-value-at [board coord new-value]
-  nil)
+  (assoc-in board coord new-value)
+)
 
 (defn find-empty-point [board]
-  nil)
+  (let [empty-cell? (fn [coord] (not (has-value? board coord)))
+        all-cells (coord-pairs (range 9))
+        empty-cells (filter empty-cell? all-cells)
+       ]
+    (first empty-cells)
+  )
+)
 
 (defn solve [board]
   nil)
