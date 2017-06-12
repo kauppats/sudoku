@@ -62,7 +62,7 @@
 )
 
 (defn rows [board]
-  (for [index (range 9)] 
+  (for [index (range 9)]
     (set (row-values board [index 0]))
   )
 )
@@ -76,7 +76,7 @@
 )
 
 (defn cols [board]
-  (for [index (range 9)] 
+  (for [index (range 9)]
     (set (col-values board [0 index]))
   )
 )
@@ -116,5 +116,25 @@
   )
 )
 
+
+(defn solve-helper [board]
+  (if (filled? board)
+    (if (valid-solution? board)
+      [board]
+      []
+    )
+    (let [empty-point (find-empty-point board)
+         ]
+      (for [value (valid-values-for board empty-point)
+            solution (solve-helper (set-value-at board empty-point value))
+           ]
+        solution
+      )
+    )
+  )
+)
+
 (defn solve [board]
-  nil)
+  (first (solve-helper board))
+)
+
